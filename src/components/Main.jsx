@@ -27,6 +27,7 @@ function Main() {
     };
     const [newPost, setNewPost] = useState(initialNewPost);
     const [postList, setPostList] = useState([]);
+    const options = ["Cinema", "Calcio", "Viaggi"]
 
     function deleteNewItem(title) {
 
@@ -82,6 +83,7 @@ function Main() {
                                 <div className="card-body">
                                     <h5 className="card-title">{post.title}</h5>
                                     <p className="card-text">{post.description}</p>
+                                    <div><b>Categoria: </b>{post.category}</div>
                                     <button onClick={() => deleteNewItem(post.title)}
                                         className="btn btn-primary">Delete</button>
                                 </div>
@@ -132,16 +134,26 @@ function Main() {
                             aria-describedby="imagelHelp"
                             onChange={handleInput}
                             value="https://placehold.co/400"
+                            name="image"
 
                         />
                     </div>
-
-                    <select className="form-select mb-3" aria-label="Category choice">
+                    <select className="form-select mb-3" aria-label="Default select example" type="textarea"
+                        id="category"
+                        aria-describedby="categorylHelp"
+                        onChange={handleInput}
+                        value={newPost.category}
+                        name="category">
                         <option selected>Scegli la categoria</option>
-                        <option value="1">Viaggi</option>
-                        <option value="2">Cinema</option>
-                        <option value="3">Lavoro</option>
+                        {options.map((option, index) => {
+                            return (<option value={option}>{option}</option>)
+                        })}
+
                     </select>
+
+                    {console.log()}
+
+
 
                     <button type="submit" className="btn btn-primary">
                         Submit
