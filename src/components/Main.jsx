@@ -2,20 +2,27 @@ import { useState } from "react";
 import posts from "../data/posts"
 import Card from "./Card"
 import tagsStyle from "../style/Tags.module.css"
-import TagsList from "./TagsList";
+import { TagsList, filteredTags } from "./TagsList";
 import Button from "./Button"
 
 function Main() {
 
-    //DELETE
-    const [myPosts, setMyPosts] = useState(posts);
 
+    const [myPosts, setMyPosts] = useState(posts);
+    //DELETE
     function deleteItem(id) {
 
         setMyPosts(
             myPosts.filter((post) => post.id !== id)
         )
     }
+    function deleteNewItem(id) {
+
+        setPostList(
+            postList.filter((post) => post.id !== id)
+        )
+    }
+
     // ADD POST
 
     const initialNewPost = {
@@ -23,19 +30,15 @@ function Main() {
         title: "",
         description: "",
         image: "",
-        category: ""
+        category: "",
+        tags: ""
 
     };
     const [newPost, setNewPost] = useState(initialNewPost);
     const [postList, setPostList] = useState([]);
     const options = ["Cinema", "Calcio", "Viaggi"]
 
-    function deleteNewItem(id) {
-
-        setPostList(
-            postList.filter((post) => post.id !== id)
-        )
-    }
+    // FUNCTIONS
 
     function handleInput(event) {
 
@@ -53,6 +56,9 @@ function Main() {
         console.log(postList)
 
     }
+
+    //TAGS
+
 
     return (
         <main className="d-flex flex-column">
@@ -153,7 +159,18 @@ function Main() {
                     </select>
 
 
+                    <ul>
+                        {filteredTags.map((tag) => {
+                            return (
+                                <li key={crypto.randomUUID()} className="list-unstyled">
+                                    <input type="checkbox" id="checkbox" />
+                                    <label htmlFor="checkbox">{tag}</label>
 
+                                </li>
+                            )
+                        })}
+
+                    </ul>
 
 
                     <button type="submit" className="btn btn-primary">
@@ -163,7 +180,7 @@ function Main() {
             </section>
 
 
-        </main>
+        </main >
     )
 }
 export default Main

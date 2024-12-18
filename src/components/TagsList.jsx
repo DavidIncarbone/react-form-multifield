@@ -9,8 +9,9 @@ for (let i = 0; i < myTags.length; i++) {
     for (let j = 0; j < myTags[i].length; j++) {
         filteredTags.indexOf(myTags[i][j]) === -1 && filteredTags.push(myTags[i][j])
     }
+
 }
-console.log(filteredTags)
+
 
 function TagsList() {
 
@@ -27,6 +28,7 @@ function TagsList() {
         </div>
     )
 }
-export default TagsList
+export { TagsList, filteredTags }
 
-// if (array.indexOf(value) === -1) array.push(value);
+console.log(filteredTags)
+
