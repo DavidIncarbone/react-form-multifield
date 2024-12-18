@@ -15,17 +15,14 @@ function Main() {
         setMyPosts(
             myPosts.filter((post) => post.id !== id)
         )
-
-
     }
-
-
     // ADD POST
 
     const initialNewPost = {
         title: "",
         description: "",
-        image: ""
+        image: "",
+        category: ""
 
     };
     const [newPost, setNewPost] = useState(initialNewPost);
@@ -36,8 +33,6 @@ function Main() {
         setPostList(
             postList.filter((post) => post.title !== title)
         )
-
-
     }
 
     function handleInput(event) {
@@ -88,10 +83,7 @@ function Main() {
                                     <h5 className="card-title">{post.title}</h5>
                                     <p className="card-text">{post.description}</p>
                                     <button onClick={() => deleteNewItem(post.title)}
-
                                         className="btn btn-primary">Delete</button>
-
-
                                 </div>
                             </div>
                         </li>
@@ -143,6 +135,13 @@ function Main() {
 
                         />
                     </div>
+
+                    <select className="form-select mb-3" aria-label="Category choice">
+                        <option selected>Scegli la categoria</option>
+                        <option value="1">Viaggi</option>
+                        <option value="2">Cinema</option>
+                        <option value="3">Lavoro</option>
+                    </select>
 
                     <button type="submit" className="btn btn-primary">
                         Submit
