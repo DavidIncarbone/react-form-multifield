@@ -31,7 +31,8 @@ function Main() {
         description: "",
         image: "",
         category: "",
-        tags: ""
+        tags: [],
+        available: false
 
     };
     const [newPost, setNewPost] = useState(initialNewPost);
@@ -41,11 +42,9 @@ function Main() {
     // FUNCTIONS
 
     function handleInput(event) {
-
-        const { value, name } = event.target;
-        console.log(value);
-        console.log(name);
-
+        const name = event.target.name
+        const value =
+            event.target.type === "checkbox" ? event.target.checked : event.target.value;
         setNewPost({ ...newPost, [name]: value });
 
     }
@@ -56,10 +55,20 @@ function Main() {
         console.log(postList)
 
     }
-
+    function handleTags(event) {
+        setNewPost((newPost) => {
+            let { tags, ...others } = newPost;
+            if (tags.includes(event.target.value)) {
+                tags = tags.filter((tag) => tag !== event.target.value)
+            } else {
+                tags = [...tags, event.target.value]
+            }
+            return {
+                tags, ...others
+            }
+        })
+    }
     //TAGS
-
-
     return (
         <main className="d-flex flex-column">
 
@@ -91,6 +100,7 @@ function Main() {
                                     <h5 className="card-title">{post.title}</h5>
                                     <p className="card-text">{post.description}</p>
                                     <div><b>Categoria: </b>{post.category}</div>
+                                    <div><b>Tags: </b>{post.tags.join(" ")}</div>
                                     <button onClick={() => deleteNewItem(post.id)}
                                         className="btn btn-primary">Delete</button>
                                 </div>
@@ -142,7 +152,6 @@ function Main() {
                             onChange={handleInput}
                             value="https://placehold.co/400"
                             name="image"
-
                         />
                     </div>
                     <select className="form-select mb-3" aria-label="Default select example" type="textarea"
@@ -155,22 +164,25 @@ function Main() {
                         {options.map((option, index) => {
                             return (<option key={crypto.randomUUID()} value={option}>{option}</option>)
                         })}
-
                     </select>
 
-
-                    <ul>
-                        {filteredTags.map((tag) => {
-                            return (
-                                <li key={crypto.randomUUID()} className="list-unstyled">
-                                    <input type="checkbox" id="checkbox" />
-                                    <label htmlFor="checkbox">{tag}</label>
-
-                                </li>
-                            )
-                        })}
-
-                    </ul>
+                    {filteredTags.map((tag) => {
+                        return (
+                            <div className="mb-3 form-check" key={tag}>
+                                <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id="avaiable"
+                                    name="available"
+                                    onChange={handleTags}
+                                    value={tag}
+                                />
+                                <label className="form-check-label" htmlFor="avaiable">
+                                    {tag}
+                                </label>
+                            </div>
+                        )
+                    })}
 
 
                     <button type="submit" className="btn btn-primary">
