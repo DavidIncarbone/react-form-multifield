@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import posts from "../data/posts"
 import Card from "./Card"
 import tagsStyle from "../style/Tags.module.css"
@@ -32,7 +32,7 @@ function Main() {
         image: "",
         category: "",
         tags: [],
-        available: false
+        status: false
 
     };
     const [newPost, setNewPost] = useState(initialNewPost);
@@ -56,6 +56,8 @@ function Main() {
 
     }
     function handleTags(event) {
+
+
         setNewPost((newPost) => {
             let { tags, ...others } = newPost;
             if (tags.includes(event.target.value)) {
@@ -68,7 +70,7 @@ function Main() {
             }
         })
     }
-    //TAGS
+
     return (
         <main className="d-flex flex-column">
 
@@ -86,28 +88,29 @@ function Main() {
                     />
                 ))}
 
-                {postList.map((post, i) => {
+                {postList.filter((el) => el.status)
+                    .map((post, i) => {
 
 
-                    return (
-                        <li key={post.id} className="list-unstyled">
+                        return (
+                            <li key={post.id} className="list-unstyled">
 
-                            <div className="card" style={{
-                                width: 15 + "rem"
-                            }}>
-                                <img className="card-img-top" src={post.image} alt="Card image cap" />
-                                <div className="card-body">
-                                    <h5 className="card-title">{post.title}</h5>
-                                    <p className="card-text">{post.description}</p>
-                                    <div><b>Categoria: </b>{post.category}</div>
-                                    <div><b>Tags: </b>{post.tags.join(" ")}</div>
-                                    <button onClick={() => deleteNewItem(post.id)}
-                                        className="btn btn-primary">Delete</button>
+                                <div className="card" style={{
+                                    width: 15 + "rem"
+                                }}>
+                                    <img className="card-img-top" src={post.image} alt="Card image cap" />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{post.title}</h5>
+                                        <p className="card-text">{post.description}</p>
+                                        <div><b>Categoria: </b>{post.category}</div>
+                                        <div><b>Tags: </b>{post.tags.join(" ")}</div>
+                                        <button onClick={() => deleteNewItem(post.id)}
+                                            className="btn btn-primary">Delete</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    )
-                })}
+                            </li>
+                        )
+                    })}
             </ul>
             <section className="my-4 ms-4">
                 <h2>Aggiungi nuovo post</h2>
@@ -161,7 +164,7 @@ function Main() {
                         value={newPost.category}
                         name="category">
                         <option defaultValue>Scegli la categoria</option>
-                        {options.map((option, index) => {
+                        {options.map((option) => {
                             return (<option key={crypto.randomUUID()} value={option}>{option}</option>)
                         })}
                     </select>
@@ -183,9 +186,20 @@ function Main() {
                             </div>
                         )
                     })}
+                    <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="status"
+                        name="status"
+                        onChange={handleInput}
+                        checked={newPost.status}
+                    />
+                    <label className="form-check-label ms-1" htmlFor="status">
+                        Pubblica
+                    </label>
 
 
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary ms-3">
                         Submit
                     </button>
                 </form>
