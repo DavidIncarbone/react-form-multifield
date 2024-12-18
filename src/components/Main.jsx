@@ -19,6 +19,7 @@ function Main() {
     // ADD POST
 
     const initialNewPost = {
+        id: crypto.randomUUID(),
         title: "",
         description: "",
         image: "",
@@ -29,10 +30,10 @@ function Main() {
     const [postList, setPostList] = useState([]);
     const options = ["Cinema", "Calcio", "Viaggi"]
 
-    function deleteNewItem(title) {
+    function deleteNewItem(id) {
 
         setPostList(
-            postList.filter((post) => post.title !== title)
+            postList.filter((post) => post.id !== id)
         )
     }
 
@@ -74,7 +75,7 @@ function Main() {
 
 
                     return (
-                        <li className="list-unstyled">
+                        <li key={post.id} className="list-unstyled">
 
                             <div className="card" style={{
                                 width: 15 + "rem"
@@ -84,7 +85,7 @@ function Main() {
                                     <h5 className="card-title">{post.title}</h5>
                                     <p className="card-text">{post.description}</p>
                                     <div><b>Categoria: </b>{post.category}</div>
-                                    <button onClick={() => deleteNewItem(post.title)}
+                                    <button onClick={() => deleteNewItem(post.id)}
                                         className="btn btn-primary">Delete</button>
                                 </div>
                             </div>
@@ -144,14 +145,14 @@ function Main() {
                         onChange={handleInput}
                         value={newPost.category}
                         name="category">
-                        <option selected>Scegli la categoria</option>
+                        <option defaultValue>Scegli la categoria</option>
                         {options.map((option, index) => {
-                            return (<option value={option}>{option}</option>)
+                            return (<option key={crypto.randomUUID()} value={option}>{option}</option>)
                         })}
 
                     </select>
 
-                    {console.log()}
+
 
 
 
