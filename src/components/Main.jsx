@@ -37,7 +37,8 @@ function Main() {
     };
     const [newPost, setNewPost] = useState(initialNewPost);
     const [postList, setPostList] = useState([]);
-    const options = ["Cinema", "Calcio", "Viaggi"]
+    const options = ["Cinema", "Calcio", "Viaggi"];
+
 
     // FUNCTIONS
 
@@ -54,10 +55,9 @@ function Main() {
         setNewPost(initialNewPost);
         console.log(postList)
 
+
     }
     function handleTags(event) {
-
-
         setNewPost((newPost) => {
             let { tags, ...others } = newPost;
             if (tags.includes(event.target.value)) {
@@ -71,6 +71,13 @@ function Main() {
         })
     }
 
+    const handleCheckboxChange = () => {
+        alert('Hai cliccato sulla checkbox!');
+        handleInput(event);
+    };
+
+
+
     return (
         <main className="d-flex flex-column">
 
@@ -78,7 +85,7 @@ function Main() {
 
             <ul className="d-flex flex-wrap gap-5">
                 {myPosts.map(post => (
-                    post.published === true &&
+                    post.published &&
                     <Card title={post.title}
                         description={post.content}
                         image={post.image}
@@ -88,27 +95,16 @@ function Main() {
                     />
                 ))}
 
-                {postList.filter((el) => el.status)
-                    .map((post, i) => {
-
-
+                {postList.filter((post) => post.status)
+                    .map((post) => {
                         return (
-                            <li key={post.id} className="list-unstyled">
-
-                                <div className="card" style={{
-                                    width: 15 + "rem"
-                                }}>
-                                    <img className="card-img-top" src={post.image} alt="Card image cap" />
-                                    <div className="card-body">
-                                        <h5 className="card-title">{post.title}</h5>
-                                        <p className="card-text">{post.description}</p>
-                                        <div><b>Categoria: </b>{post.category}</div>
-                                        <div><b>Tags: </b>{post.tags.join(" ")}</div>
-                                        <button onClick={() => deleteNewItem(post.id)}
-                                            className="btn btn-primary">Delete</button>
-                                    </div>
-                                </div>
-                            </li>
+                            <Card title={post.title}
+                                description={post.description}
+                                image={post.image}
+                                key={post.id}
+                                tags={post.tags}
+                                onDelete={() => deleteNewItem(post.id)}
+                            />
                         )
                     })}
             </ul>
@@ -153,7 +149,7 @@ function Main() {
                             id="image"
                             aria-describedby="imagelHelp"
                             onChange={handleInput}
-                            value="https://placehold.co/400"
+                            value="https://picsum.photos/200/202"
                             name="image"
                         />
                     </div>
@@ -179,6 +175,7 @@ function Main() {
                                     name="available"
                                     onChange={handleTags}
                                     value={tag}
+
                                 />
                                 <label className="form-check-label" htmlFor="avaiable">
                                     {tag}
@@ -191,7 +188,11 @@ function Main() {
                         className="form-check-input"
                         id="status"
                         name="status"
-                        onChange={handleInput}
+                        onChange={
+                            handleCheckboxChange
+
+
+                        }
                         checked={newPost.status}
                     />
                     <label className="form-check-label ms-1" htmlFor="status">
@@ -209,4 +210,6 @@ function Main() {
         </main >
     )
 }
+
+
 export default Main
